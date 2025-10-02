@@ -1,16 +1,59 @@
-# React + Vite
+Pokedex React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Descripción
+Proyecto de Pokedex hecho con React, Tailwind CSS y React Router. Permite ver una lista de Pokémon, ver detalles de cada uno y marcar tus favoritos. Incluye tests con Vitest y React Testing Library.
 
-Currently, two official plugins are available:
+🛠 Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React
 
-## React Compiler
+React Router DOM
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Tailwind CSS
 
-## Expanding the ESLint configuration
+Vitest + React Testing Library para testing
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Vite como bundler
+
+PokeAPI para los datos de Pokémon
+
+🚀 Instalación
+
+Clonar el repositorio:
+git clone https://github.com/AnaAguileraMorales88/pokedex-react.git
+cd pokedex-react
+
+Instalar dependencias:
+npm install
+
+Iniciar la app en modo desarrollo:
+npm run dev
+Abrir en el navegador: http://localhost:5173/
+
+🖥 Uso
+
+Ver lista de Pokémon en la página principal.
+
+Hacer clic en un Pokémon para ver detalles.
+
+Marcar o desmarcar como favorito con el botón ★.
+
+🧪 Tests
+
+Para ejecutar los tests:
+npm run test
+
+📸 Capturas
+
+
+🔗 Links
+
+API usada: PokeAPI
+
+Proyecto online: (si lo subes a Netlify/Vercel, pon el link)
+
+📝 Autora
+
+Ana Aguilera Morales
+
+
