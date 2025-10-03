@@ -27,11 +27,11 @@
     if (loading) return <Spinner />;
 
     return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {pokemonDetails.map((pokemon) => (
             <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}
-        </div>
+        </section>
     );
     }
 

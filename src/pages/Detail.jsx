@@ -38,7 +38,7 @@
             className="w-40 h-40 mb-4"
         />
 
-        <div className="flex gap-2 mb-2">
+        <section className="flex gap-2 mb-2">
             {pokemon.types.map((t) => (
             <span
                 key={t.type.name}
@@ -47,7 +47,7 @@
                 {t.type.name}
             </span>
             ))}
-        </div>
+        </section>
 
         <p className="mb-2">Altura: {pokemon.height}</p>
         <p className="mb-4">Peso: {pokemon.weight}</p>
