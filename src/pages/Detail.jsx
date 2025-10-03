@@ -16,7 +16,7 @@
             const data = await getPokemonById(id);
             setPokemon(data);
         } catch {
-            setError("No se pudo cargar el Pokémon 😢");
+            setError("No se pudo cargar el Pokémon");
         } finally {
             setLoading(false);
         }

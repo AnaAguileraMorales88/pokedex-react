@@ -22,7 +22,7 @@
         try {
             const [dataPokemons, dataTypes] = await Promise.all([
             getPokemons(),
-            getTypes()
+            getTypes(),
             ]);
             setPokemons(dataPokemons);
             setFilteredPokemons(dataPokemons);
@@ -39,7 +39,7 @@
     const toggleFavorite = (id) => {
         let updated = [];
         if (favorites.includes(id)) {
-        updated = favorites.filter(favId => favId !== id);
+        updated = favorites.filter((favId) => favId !== id);
         } else {
         updated = [...favorites, id];
         }
@@ -51,19 +51,19 @@
         let result = [...pokemons];
 
         if (search) {
-        result = result.filter(p =>
+        result = result.filter((p) =>
             p.name.toLowerCase().includes(search.toLowerCase())
         );
         }
 
         if (selectedType) {
-        result = result.filter(p =>
-            p.types.some(t => t.type.name === selectedType)
+        result = result.filter((p) =>
+            p.types.some((t) => t.type.name === selectedType)
         );
         }
 
         if (showFavorites) {
-        result = result.filter(p => favorites.includes(p.id));
+        result = result.filter((p) => favorites.includes(p.id));
         }
 
         setFilteredPokemons(result);
@@ -85,17 +85,21 @@
             type="text"
             placeholder="Buscar Pokémon..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             className="border rounded px-3 py-2 w-64"
             />
 
             <ul className="flex overflow-x-auto gap-2 list-none p-0 m-0">
-            {types.map(t => (
+            {types.map((t) => (
                 <li key={t.name}>
                 <button
-                    onClick={() => setSelectedType(selectedType === t.name ? "" : t.name)}
+                    onClick={() =>
+                    setSelectedType(selectedType === t.name ? "" : t.name)
+                    }
                     className={`px-3 py-1 rounded-full text-sm border ${
-                    selectedType === t.name ? "bg-blue-500 text-white" : "bg-gray-200"
+                    selectedType === t.name
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200"
                     }`}
                 >
                     {t.name}
@@ -116,7 +120,7 @@
 
         <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
             {filteredPokemons.length > 0 ? (
-            filteredPokemons.map(pokemon => (
+            filteredPokemons.map((pokemon) => (
                 <PokemonCard
                 key={pokemon.id}
                 pokemon={pokemon}
