@@ -1,22 +1,19 @@
-    export default function FavoriteButton({ pokemonId, favorites, toggleFavorite }) {
-    const isFavorite = favorites.includes(pokemonId);
+export default function FavoriteButton({ pokemonId, favorites, toggleFavorite }) {
+    const isFav = favorites.includes(pokemonId);
 
     return (
         <button
-        onClick={(e) => {
-            e.stopPropagation(); 
-            toggleFavorite(pokemonId);
-        }}
-        className={`
-            text-2xl 
-            w-10 h-10 
-            flex justify-center items-center 
-            rounded-full 
-            transition-transform duration-200 
-            ${isFavorite ? "bg-yellow-100 text-yellow-400 shadow-md scale-110" : "bg-gray-100 text-gray-300 hover:bg-gray-200 hover:scale-105"}
-        `}
+            onClick={(e) => {
+                e.stopPropagation();
+                toggleFavorite(pokemonId);
+            }}
+            className={`absolute top-6 right-6 text-2xl transition-transform duration-200 
+                ${isFav 
+                    ? "text-yellow-400 scale-125 hover:scale-150 cursor-pointer" 
+                    : "text-gray-400 hover:text-yellow-300 hover:scale-125 cursor-pointer"
+                }`}
         >
-        ★
+            ★
         </button>
     );
-    }
+}

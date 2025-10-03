@@ -1,154 +1,155 @@
-    import { useEffect, useState } from "react";
-    import { getPokemons, getTypes } from "../services/pokeApi";
-    import PokemonCard from "../components/PokemonCard";
-    import Spinner from "../components/Spinner";
+            import { useEffect, useState } from "react";
+            import { getPokemons, getTypes } from "../services/pokeApi";
+            import PokemonCard from "../components/PokemonCard";
+            import Spinner from "../components/Spinner";
 
-    function Home() {
-    const [pokemons, setPokemons] = useState([]);
-    const [filteredPokemons, setFilteredPokemons] = useState([]);
-    const [types, setTypes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [search, setSearch] = useState("");
-    const [selectedType, setSelectedType] = useState("");
-    const [favorites, setFavorites] = useState(() => {
-        const stored = localStorage.getItem("favorites");
-        return stored ? JSON.parse(stored) : [];
-    });
-    const [showFavorites, setShowFavorites] = useState(false);
+            function Home() {
+            const [pokemons, setPokemons] = useState([]);
+            const [filteredPokemons, setFilteredPokemons] = useState([]);
+            const [types, setTypes] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            const [search, setSearch] = useState("");
+            const [selectedType, setSelectedType] = useState("");
+            const [favorites, setFavorites] = useState(() => {
+                const stored = localStorage.getItem("favorites");
+                return stored ? JSON.parse(stored) : [];
+            });
+            const [showFavorites, setShowFavorites] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-        try {
-            const [dataPokemons, dataTypes] = await Promise.all([
-            getPokemons(),
-            getTypes(),
-            ]);
-            setPokemons(dataPokemons);
-            setFilteredPokemons(dataPokemons);
-            setTypes(dataTypes);
-        } catch {
-            setError("No se pudieron cargar los datos 😢");
-        } finally {
-            setLoading(false);
+            useEffect(() => {
+                const fetchData = async () => {
+                try {
+                    const [dataPokemons, dataTypes] = await Promise.all([
+                    getPokemons(),
+                    getTypes(),
+                    ]);
+                    setPokemons(dataPokemons);
+                    setFilteredPokemons(dataPokemons);
+                    setTypes(dataTypes);
+                } catch {
+                    setError("No se pudieron cargar los datos 😢");
+                } finally {
+                    setLoading(false);
+                }
+                };
+                fetchData();
+            }, []);
+
+            const toggleFavorite = (id) => {
+                let updated = [];
+                if (favorites.includes(id)) {
+                updated = favorites.filter((favId) => favId !== id);
+                } else {
+                updated = [...favorites, id];
+                }
+                setFavorites(updated);
+                localStorage.setItem("favorites", JSON.stringify(updated));
+            };
+
+            useEffect(() => {
+                let result = [...pokemons];
+
+                if (search) {
+                result = result.filter((p) =>
+                    p.name.toLowerCase().includes(search.toLowerCase())
+                );
+                }
+
+                if (selectedType) {
+                result = result.filter((p) =>
+                    p.types.some((t) => t.type.name === selectedType)
+                );
+                }
+
+                if (showFavorites) {
+                result = result.filter((p) => favorites.includes(p.id));
+                }
+
+                setFilteredPokemons(result);
+            }, [search, selectedType, pokemons, showFavorites, favorites]);
+
+            if (loading) return <Spinner />;
+
+            if (error)
+                return (
+                <section className="flex flex-col items-center mt-10 text-red-600 bg-red-100 border border-red-400 rounded p-4">
+                    <p className="text-3xl mb-2">⚠️</p>
+                    <p className="text-center">{error}</p>
+                    <button
+                    onClick={() => window.location.reload()}
+                    className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                    >
+                    Reintentar
+                    </button>
+                </section>
+                );
+
+            return (
+                <main className="p-6">
+                <header>
+                    <h1 className="text-4xl font-bold text-center mb-6 text-blue-600">
+                    Pokédex
+                    </h1>
+                </header>
+
+                <section className="flex flex-col sm:flex-row gap-4 mb-6 justify-center items-center">
+                    <input
+                    type="text"
+                    placeholder="Buscar Pokémon..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="border rounded px-3 py-2 w-64"
+                    />
+
+        <ul className="flex gap-2 overflow-x-auto py-2 mb-6 list-none p-0 m-0">
+        {types.map((t) => (
+            <li key={t.name} className="flex-shrink-0">
+    <button
+        onClick={() =>
+            setSelectedType(selectedType === t.name ? "" : t.name)
         }
-        };
-        fetchData();
-    }, []);
+        className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 transform ${
+            selectedType === t.name
+                ? "bg-blue-500 text-white border-blue-500 scale-105 hover:scale-110 cursor-pointer"
+                : "bg-gray-200 border-gray-300 hover:bg-gray-300 hover:scale-105 cursor-pointer"
+        }`}
+    >
+        {t.name}
+    </button>
 
-    const toggleFavorite = (id) => {
-        let updated = [];
-        if (favorites.includes(id)) {
-        updated = favorites.filter((favId) => favId !== id);
-        } else {
-        updated = [...favorites, id];
-        }
-        setFavorites(updated);
-        localStorage.setItem("favorites", JSON.stringify(updated));
-    };
+            </li>
+        ))}
+        </ul>
 
-    useEffect(() => {
-        let result = [...pokemons];
+                    <label className="ml-4 flex items-center gap-2">
+                    <input
+                        type="checkbox"
+                        checked={showFavorites}
+                        onChange={() => setShowFavorites(!showFavorites)}
+                    />
+                    Favoritos
+                    </label>
+                </section>
 
-        if (search) {
-        result = result.filter((p) =>
-            p.name.toLowerCase().includes(search.toLowerCase())
-        );
-        }
+                <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                    {filteredPokemons.length > 0 ? (
+                    filteredPokemons.map((pokemon) => (
+                        <PokemonCard
+                        key={pokemon.id}
+                        pokemon={pokemon}
+                        toggleFavorite={toggleFavorite}
+                        favorites={favorites}
+                        />
+                    ))
+                    ) : (
+                    <p className="text-center col-span-full mt-10">
+                        No se han encontrado pokémons.
+                    </p>
+                    )}
+                </section>
+                </main>
+            );
+            }
 
-        if (selectedType) {
-        result = result.filter((p) =>
-            p.types.some((t) => t.type.name === selectedType)
-        );
-        }
-
-        if (showFavorites) {
-        result = result.filter((p) => favorites.includes(p.id));
-        }
-
-        setFilteredPokemons(result);
-    }, [search, selectedType, pokemons, showFavorites, favorites]);
-
-    if (loading) return <Spinner />;
-
-    if (error)
-        return (
-        <section className="flex flex-col items-center mt-10 text-red-600 bg-red-100 border border-red-400 rounded p-4">
-            <p className="text-3xl mb-2">⚠️</p>
-            <p className="text-center">{error}</p>
-            <button
-            onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            >
-            Reintentar
-            </button>
-        </section>
-        );
-
-    return (
-        <main className="p-6">
-        <header>
-            <h1 className="text-4xl font-bold text-center mb-6 text-blue-600">
-            Pokédex
-            </h1>
-        </header>
-
-        <section className="flex flex-col sm:flex-row gap-4 mb-6 justify-center items-center">
-            <input
-            type="text"
-            placeholder="Buscar Pokémon..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="border rounded px-3 py-2 w-64"
-            />
-
-            <ul className="flex overflow-x-auto gap-2 list-none p-0 m-0">
-            {types.map((t) => (
-                <li key={t.name}>
-                <button
-                    onClick={() =>
-                    setSelectedType(selectedType === t.name ? "" : t.name)
-                    }
-                    className={`px-3 py-1 rounded-full text-sm border ${
-                    selectedType === t.name
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-200"
-                    }`}
-                >
-                    {t.name}
-                </button>
-                </li>
-            ))}
-            </ul>
-
-            <label className="ml-4 flex items-center gap-2">
-            <input
-                type="checkbox"
-                checked={showFavorites}
-                onChange={() => setShowFavorites(!showFavorites)}
-            />
-            Favoritos
-            </label>
-        </section>
-
-        <section className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-            {filteredPokemons.length > 0 ? (
-            filteredPokemons.map((pokemon) => (
-                <PokemonCard
-                key={pokemon.id}
-                pokemon={pokemon}
-                toggleFavorite={toggleFavorite}
-                favorites={favorites}
-                />
-            ))
-            ) : (
-            <p className="text-center col-span-full mt-10">
-                No se han encontrado pokémons.
-            </p>
-            )}
-        </section>
-        </main>
-    );
-    }
-
-    export default Home;
+            export default Home;
