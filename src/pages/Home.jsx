@@ -70,7 +70,20 @@
     }, [search, selectedType, pokemons, showFavorites, favorites]);
 
     if (loading) return <Spinner />;
-    if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
+
+    if (error)
+        return (
+        <section className="flex flex-col items-center mt-10 text-red-600 bg-red-100 border border-red-400 rounded p-4">
+            <p className="text-3xl mb-2">⚠️</p>
+            <p className="text-center">{error}</p>
+            <button
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+            Reintentar
+            </button>
+        </section>
+        );
 
     return (
         <main className="p-6">
