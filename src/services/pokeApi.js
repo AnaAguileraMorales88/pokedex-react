@@ -1,5 +1,3 @@
-    // src/services/pokeApi.js
-
     const API_BASE = "https://pokeapi.co/api/v2";
 
     export async function getPokemons(limit = 50) {
