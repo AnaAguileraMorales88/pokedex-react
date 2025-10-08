@@ -3,7 +3,7 @@
     import PokemonCard from "../components/PokemonCard";
     import Spinner from "../components/Spinner";
 
-    function Home() {
+    function Home({ favorites, toggleFavorite }) {
     const [pokemons, setPokemons] = useState([]);
     const [filteredPokemons, setFilteredPokemons] = useState([]);
     const [types, setTypes] = useState([]);
@@ -11,10 +11,6 @@
     const [error, setError] = useState(null);
     const [search, setSearch] = useState("");
     const [selectedType, setSelectedType] = useState("");
-    const [favorites, setFavorites] = useState(() => {
-        const stored = localStorage.getItem("favorites");
-        return stored ? JSON.parse(stored) : [];
-    });
     const [showFavorites, setShowFavorites] = useState(false);
 
     useEffect(() => {
@@ -35,14 +31,6 @@
         };
         fetchData();
     }, []);
-
-    const toggleFavorite = (id) => {
-        let updated = favorites.includes(id)
-        ? favorites.filter((favId) => favId !== id)
-        : [...favorites, id];
-        setFavorites(updated);
-        localStorage.setItem("favorites", JSON.stringify(updated));
-    };
 
     useEffect(() => {
         let result = [...pokemons];
