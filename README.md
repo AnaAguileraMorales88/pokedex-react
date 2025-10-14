@@ -52,6 +52,6 @@ Proyecto online: (si lo subes a Netlify/Vercel, pon el link)
 
 ## 📝 Autora
 
-Ana Aguilera [Linkedin](https://www.linkedin.com/in/ana-aguilera-morales-011b1a238/)
+Ana Aguilera [Linkedin](https://www.linkedin.com/in/ana-aguilera-morales-011b1a238/) [GitHub](https://github.com/AnaAguileraMorales88)
 
 
